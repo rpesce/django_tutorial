@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Question
+from .models import Class1
 
 
 def create_question(question_text, days):
@@ -14,7 +14,7 @@ def create_question(question_text, days):
     in the past, positive for questions that have yet to be published).
     """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+    return Class1.objects.create(question_text=question_text, pub_date=time)
 
 
 class QuestionIndexViewTests(TestCase):
@@ -78,8 +78,8 @@ class QuestionIndexViewTests(TestCase):
 class QuestionModelTests(TestCase):
     def test_was_published_recently_with_future_question(self):
         time = timezone.now() + datetime.timedelta(days=30)
-        future_question = Question(pub_date=time)
-        self.assertIs(future_question.was_published_recently(), False)
+        future_question = Class1(pub_date=time)
+        self.assertIs(future_question.was_published_recently(43), False)
 
     def test_was_published_recently_with_old_question(self):
         """
@@ -87,8 +87,8 @@ class QuestionModelTests(TestCase):
         is older than 1 day.
         """
         time = timezone.now() - datetime.timedelta(days=1, seconds=1)
-        old_question = Question(pub_date=time)
-        self.assertIs(old_question.was_published_recently(), False)
+        old_question = Class1(pub_date=time)
+        self.assertIs(old_question.was_published_recently(43), False)
 
     def test_was_published_recently_with_recent_question(self):
         """
@@ -96,8 +96,8 @@ class QuestionModelTests(TestCase):
         is within the last day.
         """
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
-        recent_question = Question(pub_date=time)
-        self.assertIs(recent_question.was_published_recently(), True)
+        recent_question = Class1(pub_date=time)
+        self.assertIs(recent_question.was_published_recently(43), True)
 
 
 class QuestionDetailViewTests(TestCase):

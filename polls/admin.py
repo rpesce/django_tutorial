@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Question, Choice
+from .models import Class1, Choice
 
 
 class ChoiceInline(admin.TabularInline):
@@ -19,4 +19,4 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
 
-admin.site.register(Question, QuestionAdmin)
+admin.site.register(Class1, QuestionAdmin)
